@@ -165,7 +165,11 @@ namespace Whisper
 HRESULT COMLIGHTCALL Whisper::initMediaFoundation( iMediaFoundation** pp )
 {
 	if( nullptr == pp )
+	{
+		logError( u8"initMediaFoundation: pp is null" );
 		return E_POINTER;
+	}
+		
 
 	ComLight::CComPtr<ComLight::Object<MediaFoundation>> obj;
 	CHECK( ComLight::Object<MediaFoundation>::create( obj ) );
