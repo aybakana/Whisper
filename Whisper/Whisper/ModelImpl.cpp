@@ -61,6 +61,11 @@ HRESULT ModelImpl::createClone( const ModelImpl& source )
 
 HRESULT ModelImpl::load( iReadStream* stm, bool hybrid, const sLoadModelCallbacks* callbacks )
 {
+	if (nullptr == stm)
+	{
+		logError(u8"ModelImpl::load: stm is nullptr");
+		return E_POINTER;
+	}
 	auto ts = device.setForCurrentThread();
 	CHECK( device.create( gpuFlags, adapter ) );
 	return model.load( stm, hybrid, callbacks );
@@ -114,8 +119,11 @@ inline bool hasAvxAndFma()
 
 HRESULT __stdcall Whisper::loadGpuModel( const wchar_t* path, const sModelSetup& setup, const sLoadModelCallbacks* callbacks, iModel** pp )
 {
-	if( nullptr == path || nullptr == pp )
+	if (nullptr == path || nullptr == pp)
+	{
+		logError(u8"loadGpuModel: path or pp is nullptr");
 		return E_POINTER;
+	}
 
 	const bool hybrid = setup.impl == eModelImplementation::Hybrid;
 	if( hybrid )

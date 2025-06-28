@@ -397,8 +397,13 @@ namespace
 
 HRESULT COMLIGHTCALL ContextImpl::runCapture( const sFullParams& params, const sCaptureCallbacks& callbacks, const iAudioCapture* reader )
 {
+	// Validate the parameters
 	if( nullptr == reader )
+	{
+		logError( u8"runCapture: reader is null" );
 		return E_POINTER;
+	}
+		
 
 	// Validate a few things
 	{

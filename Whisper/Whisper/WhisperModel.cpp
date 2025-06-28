@@ -433,6 +433,12 @@ HRESULT WhisperModel::loadHybrid( ComLight::iReadStream* stm, CallbacksImpl& cal
 
 HRESULT WhisperModel::load( ComLight::iReadStream* stm, bool hybrid, const sLoadModelCallbacks* callbacks )
 {
+	if (nullptr == stm)
+	{
+		logError(u8"WhisperModel::load: stm is nullptr");
+		return E_POINTER;
+	}
+
 	CpuProfiler cpuPerf;
 	CallbacksImpl cb;
 	CHECK( cb.initialize( stm, callbacks ) );
