@@ -155,8 +155,23 @@ namespace
 
 HRESULT __stdcall Whisper::captureOpen( iMediaFoundation* owner, const wchar_t* endpoint, const sCaptureParams& captureParams, iAudioCapture** pp ) noexcept
 {
-	if( nullptr == endpoint || nullptr == pp )
+	if (nullptr == pp)
+	{
+		logDebug(u8"captureOpen: pp is null!");
 		return E_POINTER;
+	}
+
+	if (nullptr == endpoint)
+	{
+		logDebug(u8"captureOpen: endpoint is null!");
+		return E_POINTER;
+	}
+
+	if( 0 == ::wcslen( endpoint ) )
+	{
+		logDebug( u8"captureOpen: endpoint is an empty string" );
+		return E_INVALIDARG;
+	}
 
 	ComLight::CComPtr<ComLight::Object<Capture>> res;
 	CHECK( ComLight::Object<Capture>::create( res ) );
